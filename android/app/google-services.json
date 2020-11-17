@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "387908181618",
+    "firebase_url": "https://mental-care-padjadjaran.firebaseio.com",
+    "project_id": "mental-care-padjadjaran",
+    "storage_bucket": "mental-care-padjadjaran.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:387908181618:android:8739c4407166a681f5eceb",
+        "android_client_info": {
+          "package_name": "com.example.mcp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "387908181618-7kejhb9mqj8a2dq5f94chjfg928n78mv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBmwMEoxJhFqRtcWs8Rpq_LL91zDLgThb8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "387908181618-7kejhb9mqj8a2dq5f94chjfg928n78mv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -18,6 +18,43 @@ class _LoginPageState extends State<LoginPage> {
   String kata2 = 'Daftar';
   String kata3 = 'Login';
 
+  Widget formLogin = Column(
+    key: ValueKey(1),
+    children: [
+      Container(
+        margin: EdgeInsets.only(bottom: 20),
+        width: SizeConfig.screenWidth / 2,
+        height: SizeConfig.blockVertical * 6,
+        decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.all(Radius.circular(10))),
+        child: TextField(
+          decoration: InputDecoration(
+            prefixIcon: Icon(Icons.person),
+            border: InputBorder.none,
+            hintText: "Username",
+          ),
+        ),
+      ),
+      Container(
+        margin: EdgeInsets.only(bottom: 20),
+        width: SizeConfig.screenWidth / 2,
+        height: SizeConfig.blockVertical * 6,
+        decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.all(Radius.circular(10))),
+        child: TextField(
+          obscureText: true,
+          decoration: InputDecoration(
+            prefixIcon: Icon(Icons.vpn_key),
+            border: InputBorder.none,
+            hintText: "Password",
+          ),
+        ),
+      ),
+    ],
+  );
+
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
@@ -28,7 +65,7 @@ class _LoginPageState extends State<LoginPage> {
         child: Stack(
           children: [
             Align(
-              alignment: Alignment(0, -0.7),
+              alignment: Alignment(0, -0.6),
               child: Text(
                 "MENTAL CARE PADJADJARAN",
                 style: TextStyle(
@@ -39,15 +76,16 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ),
             Align(
-                alignment: Alignment(0, 0.4),
+                alignment: Alignment(0, 0.65),
                 child: Container(
                   //color : Colors.white,
                   width: SizeConfig.blockHorizontal * 55,
                   height: SizeConfig.blockVertical * 30,
                   child: Text(
-                      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum Lorem ipsum dolor sit amet, ",
-                      style: TextStyle(fontSize: 12),
-                      textAlign: TextAlign.justify,),
+                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum Lorem ipsum dolor sit amet, ",
+                    style: TextStyle(fontSize: 12),
+                    textAlign: TextAlign.justify,
+                  ),
                 ))
           ],
         ),
@@ -57,7 +95,7 @@ class _LoginPageState extends State<LoginPage> {
         child: Stack(
           children: [
             Align(
-              alignment: Alignment(0, -0.7),
+              alignment: Alignment(0, -0.6),
               child: Text(
                 "IMBAUAN",
                 style: TextStyle(
@@ -68,20 +106,20 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ),
             Align(
-                alignment: Alignment(0, 0.4),
+                alignment: Alignment(0, 0.65),
                 child: Container(
                   //color : Colors.white,
                   width: SizeConfig.blockHorizontal * 55,
                   height: SizeConfig.blockVertical * 30,
                   child: Text(
-                      "Semua hal yang ada di sini hanyalah uji coba, jangan suka main main ah ga baik. Siap teman teman?",
-                      style: TextStyle(fontSize: 12),
-                      textAlign: TextAlign.justify,),
+                    "Semua hal yang ada di sini hanyalah uji coba, jangan suka main main ah ga baik. Siap teman teman?",
+                    style: TextStyle(fontSize: 12),
+                    textAlign: TextAlign.justify,
+                  ),
                 ))
           ],
         ),
       ),
-      
     ];
 
     return Scaffold(
@@ -98,7 +136,13 @@ class _LoginPageState extends State<LoginPage> {
                       return swiperlist[index];
                     },
                     itemCount: 2,
-                    pagination: new SwiperPagination(),
+                    pagination: new SwiperPagination(
+                        builder: const DotSwiperPaginationBuilder(
+                            size: 5.0,
+                            activeColor: Colors.blue,
+                            color: Colors.lightBlue,
+                            space: 5.0,
+                            activeSize: 7.0)),
                     //control: new SwiperControl(),
                   ))),
 
@@ -151,44 +195,10 @@ class _LoginPageState extends State<LoginPage> {
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         Align(
-                          child: Column(
-                            children: [
-                              Container(
-                                margin: EdgeInsets.only(bottom: 20),
-                                width: SizeConfig.screenWidth / 2,
-                                height: SizeConfig.blockVertical * 6,
-                                decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(10))),
-                                child: TextField(
-                                  decoration: InputDecoration(
-                                    prefixIcon: Icon(Icons.person),
-                                    border: InputBorder.none,
-                                    hintText: "Username",
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                margin: EdgeInsets.only(bottom: 20),
-                                width: SizeConfig.screenWidth / 2,
-                                height: SizeConfig.blockVertical * 6,
-                                decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(10))),
-                                child: TextField(
-                                  obscureText: true,
-                                  decoration: InputDecoration(
-                                    prefixIcon: Icon(Icons.vpn_key),
-                                    border: InputBorder.none,
-                                    hintText: "Password",
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
+                            child: AnimatedSwitcher(
+                          duration: Duration(milliseconds: 200),
+                          child: formLogin,
+                        )),
                         Container(
                           margin: EdgeInsets.only(bottom: 10),
                           child: SizedBox(
@@ -238,15 +248,105 @@ class _LoginPageState extends State<LoginPage> {
   void _clickDaftar() {
     setState(() {
       if (resizeBox == 0) {
-        resizeBox += 14;
+        resizeBox += 7;
         kata1 = 'Sudah punya akun?   ';
         kata2 = 'Login';
         kata3 = 'Daftar';
+
+        formLogin = Column(
+          key: ValueKey(2),
+          children: [
+            Container(
+              margin: EdgeInsets.only(bottom: 20),
+              width: SizeConfig.screenWidth / 2,
+              height: SizeConfig.blockVertical * 6,
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.all(Radius.circular(10))),
+              child: TextField(
+                decoration: InputDecoration(
+                  prefixIcon: Icon(Icons.person),
+                  border: InputBorder.none,
+                  hintText: "Username",
+                ),
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.only(bottom: 20),
+              width: SizeConfig.screenWidth / 2,
+              height: SizeConfig.blockVertical * 6,
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.all(Radius.circular(10))),
+              child: TextField(
+                obscureText: true,
+                decoration: InputDecoration(
+                  prefixIcon: Icon(Icons.mail),
+                  border: InputBorder.none,
+                  hintText: "E-mail",
+                ),
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.only(bottom: 20),
+              width: SizeConfig.screenWidth / 2,
+              height: SizeConfig.blockVertical * 6,
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.all(Radius.circular(10))),
+              child: TextField(
+                obscureText: true,
+                decoration: InputDecoration(
+                  prefixIcon: Icon(Icons.vpn_key),
+                  border: InputBorder.none,
+                  hintText: "Password",
+                ),
+              ),
+            ),
+          ],
+        );
       } else {
         resizeBox = 0;
         kata1 = 'Belum punya akun?   ';
         kata2 = 'Daftar';
         kata3 = 'Login';
+
+        formLogin = Column(
+          key: ValueKey(1),
+          children: [
+            Container(
+              margin: EdgeInsets.only(bottom: 20),
+              width: SizeConfig.screenWidth / 2,
+              height: SizeConfig.blockVertical * 6,
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.all(Radius.circular(10))),
+              child: TextField(
+                decoration: InputDecoration(
+                  prefixIcon: Icon(Icons.person),
+                  border: InputBorder.none,
+                  hintText: "Username",
+                ),
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.only(bottom: 20),
+              width: SizeConfig.screenWidth / 2,
+              height: SizeConfig.blockVertical * 6,
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.all(Radius.circular(10))),
+              child: TextField(
+                obscureText: true,
+                decoration: InputDecoration(
+                  prefixIcon: Icon(Icons.vpn_key),
+                  border: InputBorder.none,
+                  hintText: "Password",
+                ),
+              ),
+            ),
+          ],
+        );
       }
     });
   }
