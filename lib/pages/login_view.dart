@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:mcp/layout.dart';
 import 'package:flutter/gestures.dart';
 import 'package:mcp/pages/auth_services.dart';
-// import 'package:mcp/pages/home_view.dart';
+import 'package:mcp/pages/home_view.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 
 class LoginPage extends StatefulWidget {
@@ -220,7 +220,6 @@ class _LoginPageState extends State<LoginPage> {
                                         passwordController.text.isEmpty) {
                                       print(
                                           "Email and password cannot be empty");
-                                      return;
                                     }
                                     try {
                                       final user =
@@ -230,6 +229,11 @@ class _LoginPageState extends State<LoginPage> {
                                                   passwordController.text);
                                       if (user != null) {
                                         print("Login Successful");
+                                        Navigator.pushReplacement(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    HomePage()));
                                       }
                                     } catch (e) {
                                       print(e);
@@ -361,7 +365,7 @@ class _LoginPageState extends State<LoginPage> {
                   color: Colors.white,
                   borderRadius: BorderRadius.all(Radius.circular(10))),
               child: TextField(
-                controller: emailController,
+                controller: passwordController,
                 obscureText: true,
                 decoration: InputDecoration(
                   prefixIcon: Icon(Icons.vpn_key),

@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:mcp/pages/splashscreen_view.dart';
-// import 'package:mcp/pages/home_view.dart';
-// import 'package:mcp/pages/login_view.dart';
-// import 'package:firebase_auth/firebase_auth.dart';
+import 'package:mcp/pages/home_view.dart';
+import 'package:mcp/pages/login_view.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
     title: 'Splash Screen',
@@ -16,16 +19,16 @@ void main() {
   ));
 }
 
-// class MainScreen extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return StreamBuilder<User>(
-//         stream: FirebaseAuth.instance.authStateChanges(),
-//         builder: (context, snapshot) {
-//           if (snapshot.hasData && snapshot.data != null) {
-//             return HomePage();
-//           }
-//           return LoginPage();
-//         });
-//   }
-// }
+class MainScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder<User>(
+        stream: FirebaseAuth.instance.authStateChanges(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData && snapshot.data != null) {
+            return HomePage();
+          }
+          return LoginPage();
+        });
+  }
+}
