@@ -1,10 +1,10 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-//import 'package:mcp/home_view.dart';
 import 'package:mcp/layout.dart';
 import 'package:flutter/gestures.dart';
-import 'package:mcp/pages/home_view.dart';
+import 'package:mcp/pages/auth_services.dart';
+// import 'package:mcp/pages/home_view.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 
 class LoginPage extends StatefulWidget {
@@ -13,6 +13,16 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  TextEditingController emailController;
+  TextEditingController passwordController;
+
+  @override
+  void initState() {
+    super.initState();
+    emailController = TextEditingController(text: "");
+    passwordController = TextEditingController(text: "");
+  }
+
   int resizeBox = 0;
   String kata1 = 'Belum punya akun?   ';
   String kata2 = 'Daftar';
@@ -205,12 +215,25 @@ class _LoginPageState extends State<LoginPage> {
                               width: SizeConfig.screenWidth / 2,
                               child: RaisedButton(
                                   child: Text(kata3),
-                                  onPressed: () {
-                                    Navigator.pushReplacement(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => HomePage()),
-                                    );
+                                  onPressed: () async {
+                                    if (emailController.text.isEmpty ||
+                                        passwordController.text.isEmpty) {
+                                      print(
+                                          "Email and password cannot be empty");
+                                      return;
+                                    }
+                                    try {
+                                      final user =
+                                          await AuthServices.signInWithEmail(
+                                              email: emailController.text,
+                                              password:
+                                                  passwordController.text);
+                                      if (user != null) {
+                                        print("Login Successful");
+                                      }
+                                    } catch (e) {
+                                      print(e);
+                                    }
                                   })),
                         ),
                         Container(
@@ -322,6 +345,7 @@ class _LoginPageState extends State<LoginPage> {
                   color: Colors.white,
                   borderRadius: BorderRadius.all(Radius.circular(10))),
               child: TextField(
+                controller: emailController,
                 decoration: InputDecoration(
                   prefixIcon: Icon(Icons.person),
                   border: InputBorder.none,
@@ -337,6 +361,7 @@ class _LoginPageState extends State<LoginPage> {
                   color: Colors.white,
                   borderRadius: BorderRadius.all(Radius.circular(10))),
               child: TextField(
+                controller: emailController,
                 obscureText: true,
                 decoration: InputDecoration(
                   prefixIcon: Icon(Icons.vpn_key),
