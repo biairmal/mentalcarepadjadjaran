@@ -49,6 +49,7 @@ class ArtikelPage extends StatelessWidget {
             ],
           ),
         ),
+        //a
       ),
       bottomNavigationBar: NavBar(),
     );
