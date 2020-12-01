@@ -12,7 +12,9 @@ class _HomePageState extends State<HomePage> {
   static Color colorTextAbu = Color(0XFF7C797A);
   static Color colorTextBiru = Color(0XFF1C7AAE);
 
-  Widget menuButton = Container(
+  menuButton(kata){
+
+  return Container(
     //color: Colors.blue
     decoration:
         BoxDecoration(border: Border.all(color: colorTextBiru, width: 1,)),
@@ -28,17 +30,22 @@ class _HomePageState extends State<HomePage> {
         ),
         SizedBox(height: 20),
         Text(
-          "Contoh",
+          kata,
           style: TextStyle(color: colorTextBiru),
         ),
       ],
     ),
   );
+  } 
 
-  Widget artikel = Column(
+  artikel(judul){
+    
+  return Column(
     children: [
       GestureDetector(
-        onTap: (){},
+        onTap: (){
+          Navigator.push(context, MaterialPageRoute(builder: (context)=> ArtikelPage()));
+        },
         child: Container(
           //color: Colors.red,
           width: SizeConfig.blockHorizontal * 70,
@@ -62,7 +69,7 @@ class _HomePageState extends State<HomePage> {
               ),
               SizedBox(width: 10),
               Text(
-                "Judul Artikel",
+                judul,
                 style: TextStyle(color: colorTextBiru),
               )
             ],
@@ -72,6 +79,7 @@ class _HomePageState extends State<HomePage> {
       SizedBox(height: 10)
     ],
   );
+  } 
 
   @override
   Widget build(BuildContext context) {
@@ -94,9 +102,10 @@ class _HomePageState extends State<HomePage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                menuButton,
-                menuButton,
-                menuButton,
+                menuButton("Depresi"),
+                menuButton("Stress"),
+                menuButton("Curhat"),
+
               ],
             ),
             SizedBox(height: 30),
@@ -128,11 +137,12 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             SizedBox(height: 10),
-            artikel,
-            artikel,
-            artikel,
-            artikel,
-            artikel,
+            artikel("Judul Artikel 1"),
+            artikel("Judul Artikel 2"),
+            artikel("Judul Artikel 3"),
+            artikel("Judul Artikel 4"),
+            artikel("Judul Artikel 5"),
+            artikel("Judul Artikel 6"),
             
             ],
         ),
