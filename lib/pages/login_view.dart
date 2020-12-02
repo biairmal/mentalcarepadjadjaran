@@ -7,6 +7,7 @@ import 'package:mcp/pages/auth_services.dart';
 import 'package:mcp/pages/home_view.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 
+
 class LoginPage extends StatefulWidget {
   @override
   _LoginPageState createState() => _LoginPageState();
@@ -42,7 +43,7 @@ class _LoginPageState extends State<LoginPage> {
           decoration: InputDecoration(
             prefixIcon: Icon(Icons.person),
             border: InputBorder.none,
-            hintText: "Username",
+            hintText: "Email",
           ),
         ),
       ),
@@ -216,29 +217,55 @@ class _LoginPageState extends State<LoginPage> {
                               child: RaisedButton(
                                   child: Text(kata3),
                                   onPressed: () async {
-                                    if (emailController.text.isEmpty ||
+                                    if (resizeBox == 0) {
+                                      if (emailController.text.isEmpty ||
+                                          passwordController.text.isEmpty) {
+                                        print(
+                                            "Email and password cannot be empty");
+                                      }
+                                      try {
+                                        final user =
+                                            await AuthServices.signInWithEmail(
+                                                email: emailController.text,
+                                                password:
+                                                    passwordController.text);
+                                        if (user != null) {
+                                          print("Login Successful");
+                                          Navigator.pushReplacement(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      HomePage()));
+                                        }
+                                      } catch (e) {
+                                        print(e);
+                                      }
+                                    }
+                                    else {
+                                      if (emailController.text.isEmpty ||
                                         passwordController.text.isEmpty) {
                                       print(
                                           "Email and password cannot be empty");
                                     }
                                     try {
                                       final user =
-                                          await AuthServices.signInWithEmail(
+                                          await AuthServices.createUser(
                                               email: emailController.text,
                                               password:
                                                   passwordController.text);
                                       if (user != null) {
-                                        print("Login Successful");
                                         Navigator.pushReplacement(
                                             context,
                                             MaterialPageRoute(
                                                 builder: (context) =>
-                                                    HomePage()));
+                                                    LoginPage()));
                                       }
                                     } catch (e) {
                                       print(e);
                                     }
-                                  })),
+                                    }
+                                    }
+                                    )),
                         ),
                         Container(
                           margin: EdgeInsets.only(bottom: 20),
@@ -283,6 +310,21 @@ class _LoginPageState extends State<LoginPage> {
         formLogin = Column(
           key: ValueKey(2),
           children: [
+            // Container(
+            //   margin: EdgeInsets.only(bottom: 20),
+            //   width: SizeConfig.screenWidth / 2,
+            //   height: SizeConfig.blockVertical * 6,
+            //   decoration: BoxDecoration(
+            //       color: Colors.white,
+            //       borderRadius: BorderRadius.all(Radius.circular(10))),
+            //   child: TextField(
+            //     decoration: InputDecoration(
+            //       prefixIcon: Icon(Icons.person),
+            //       border: InputBorder.none,
+            //       hintText: "Username",
+            //     ),
+            //   ),
+            // ),
             Container(
               margin: EdgeInsets.only(bottom: 20),
               width: SizeConfig.screenWidth / 2,
@@ -291,26 +333,11 @@ class _LoginPageState extends State<LoginPage> {
                   color: Colors.white,
                   borderRadius: BorderRadius.all(Radius.circular(10))),
               child: TextField(
-                decoration: InputDecoration(
-                  prefixIcon: Icon(Icons.person),
-                  border: InputBorder.none,
-                  hintText: "Username",
-                ),
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.only(bottom: 20),
-              width: SizeConfig.screenWidth / 2,
-              height: SizeConfig.blockVertical * 6,
-              decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.all(Radius.circular(10))),
-              child: TextField(
-                obscureText: true,
+                controller: emailController,
                 decoration: InputDecoration(
                   prefixIcon: Icon(Icons.mail),
                   border: InputBorder.none,
-                  hintText: "E-mail",
+                  hintText: "Email",
                 ),
               ),
             ),
@@ -322,6 +349,7 @@ class _LoginPageState extends State<LoginPage> {
                   color: Colors.white,
                   borderRadius: BorderRadius.all(Radius.circular(10))),
               child: TextField(
+                controller: passwordController,
                 obscureText: true,
                 decoration: InputDecoration(
                   prefixIcon: Icon(Icons.vpn_key),
@@ -330,8 +358,39 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
             ),
+            // Container(
+            //   margin: EdgeInsets.only(bottom: 10),
+            //   child: SizedBox(
+            //   width: SizeConfig.screenWidth / 2,
+            //                   child: RaisedButton(
+            //                       onPressed: () async {
+            //                         if (emailController.text.isEmpty ||
+            //                             passwordController.text.isEmpty) {
+            //                           print(
+            //                               "Email and password cannot be empty");
+            //                         }
+            //                         try {
+            //                           final user =
+            //                               await AuthServices.createUser(
+            //                                   email: emailController.text,
+            //                                   password:
+            //                                       passwordController.text);
+            //                           if (user != null) {
+            //                             print("Login Successful");
+            //                             Navigator.pushReplacement(
+            //                                 context,
+            //                                 MaterialPageRoute(
+            //                                     builder: (context) =>
+            //                                         LoginPage()));
+            //                           }
+            //                         } catch (e) {
+            //                           print(e);
+            //                         }
+            //                       }
+            //             )))
           ],
         );
+        
       } else {
         resizeBox = 0;
         kata1 = 'Belum punya akun?   ';
@@ -353,7 +412,7 @@ class _LoginPageState extends State<LoginPage> {
                 decoration: InputDecoration(
                   prefixIcon: Icon(Icons.person),
                   border: InputBorder.none,
-                  hintText: "Username",
+                  hintText: "Email",
                 ),
               ),
             ),
