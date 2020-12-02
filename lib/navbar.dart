@@ -21,46 +21,118 @@ class NavBar extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
-            IconButton(
-                icon: Icon(
-                  Icons.person,
-                  size: SizeConfig.blockHorizontal * 7.5,
-                  color: Colors.white,
-                ),
-                onPressed: () {
-                  Navigator.pushReplacement(context,
-                      MaterialPageRoute(builder: (context) => ProfilePage()));
-                }),
-            IconButton(
-                icon: Icon(
-                  Icons.home,
-                  size: SizeConfig.blockHorizontal * 7.5,
-                  color: Colors.white,
-                ),
-                onPressed: () {
-                  Navigator.pushReplacement(context,
-                      MaterialPageRoute(builder: (context) => HomePage()));
-                }),
-            IconButton(
-                icon: Icon(
-                  Icons.chat,
-                  size: SizeConfig.blockHorizontal * 7.5,
-                  color: Colors.white,
-                ),
-                onPressed: () {
-                  Navigator.pushReplacement(context,
-                      MaterialPageRoute(builder: (context) => ChatListPage()));
-                }),
-            IconButton(
-                icon: Icon(
-                  Icons.logout,
-                  size: SizeConfig.blockHorizontal * 7.5,
-                  color: Colors.white,
-                ),
-                onPressed: () {
-                  Navigator.pushReplacement(context,
-                      MaterialPageRoute(builder: (context) => LoginPage()));
-                }),
+            Container(
+              height: SizeConfig.blockVertical*10,
+              width: SizeConfig.blockHorizontal*14,
+              child: Stack(
+                children: [
+                  Align(
+                    alignment: Alignment(0, -0.5),
+                    child: IconButton(
+                        icon: Icon(
+                          Icons.person,
+                          size: SizeConfig.blockHorizontal * 7.5,
+                          color: Colors.white,
+                        ),
+                        onPressed: () {
+                          Navigator.pushReplacement(context,
+                              MaterialPageRoute(builder: (context) => ProfilePage()));
+                        }),
+                  ),
+                      Align(
+                        alignment : Alignment(0,0.6),
+                        child: Text(
+                          "Profile",
+                          style: TextStyle(fontSize: 12, color: Colors.white,)
+                        ),
+                      ),
+                ],
+              ),
+            ),
+            Container(
+              height: SizeConfig.blockVertical*10,
+              width: SizeConfig.blockHorizontal*14,
+              child: Stack(
+                children: [
+                  Align(
+                    alignment: Alignment(0, -0.5),
+                    child: IconButton(
+                        icon: Icon(
+                          Icons.home,
+                          size: SizeConfig.blockHorizontal * 7.5,
+                          color: Colors.white,
+                        ),
+                        onPressed: () {
+                          Navigator.pushReplacement(context,
+                              MaterialPageRoute(builder: (context) => HomePage()));
+                        }),
+                  ),
+                      Align(
+                        alignment : Alignment(0,0.6),
+                        child: Text(
+                          "Home",
+                          style: TextStyle(fontSize: 12, color: Colors.white,)
+                        ),
+                      ),
+                ],
+              ),
+            ),
+            Container(
+              height: SizeConfig.blockVertical*10,
+              width: SizeConfig.blockHorizontal*14,
+              child: Stack(
+                children: [
+                  Align(
+                    alignment: Alignment(0, -0.5),
+                    child: IconButton(
+                        icon: Icon(
+                          Icons.chat,
+                          size: SizeConfig.blockHorizontal * 7.5,
+                          color: Colors.white,
+                        ),
+                        onPressed: () {
+                          Navigator.pushReplacement(context,
+                              MaterialPageRoute(builder: (context) => ChatListPage()));
+                        }),
+                  ),
+                      Align(
+                        alignment : Alignment(0,0.6),
+                        child: Text(
+                          "Chat",
+                          style: TextStyle(fontSize: 12, color: Colors.white,)
+                        ),
+                      ),
+                ],
+              ),
+            ),
+            Container(
+              height: SizeConfig.blockVertical*10,
+              width: SizeConfig.blockHorizontal*14,
+              child: Stack(
+                children: [
+                  Align(
+                    alignment: Alignment(0, -0.5),
+                    child: IconButton(
+                        icon: Icon(
+                          Icons.logout,
+                          size: SizeConfig.blockHorizontal * 7.5,
+                          color: Colors.white,
+                        ),
+                        onPressed: () {
+                          Navigator.pushReplacement(context,
+                              MaterialPageRoute(builder: (context) => LoginPage()));
+                        }),
+                  ),
+                      Align(
+                        alignment : Alignment(0,0.6),
+                        child: Text(
+                          "Logout",
+                          style: TextStyle(fontSize: 12, color: Colors.white,)
+                        ),
+                      ),
+                ],
+              ),
+            ),
           ],
         ));
   }

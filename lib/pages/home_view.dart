@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:mcp/layout.dart';
 import 'package:mcp/navbar.dart';
 import 'package:mcp/pages/artikel.dart';
+import 'package:mcp/pages/curhat.dart';
+import 'package:mcp/pages/depressi.dart';
+import 'package:mcp/pages/stress.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -14,27 +17,37 @@ class _HomePageState extends State<HomePage> {
 
   menuButton(kata){
 
-  return Container(
-    //color: Colors.blue
-    decoration:
-        BoxDecoration(border: Border.all(color: colorTextBiru, width: 1,)),
-    height: SizeConfig.blockVertical * 22,
-    width: SizeConfig.blockHorizontal * 28,
-    child: Column(
-      children: [
-        SizedBox(height: 20),
-        Container(
-          height: SizeConfig.blockVertical * 10,
-          width: SizeConfig.blockHorizontal * 18,
-          decoration: BoxDecoration(color: colorTextAbu, borderRadius : BorderRadius.circular(5)),
-        ),
-        SizedBox(height: 20),
-        Text(
-          kata,
-          style: TextStyle(color: colorTextBiru),
-        ),
-      ],
-    ),
+  return GestureDetector(
+    onTap: (){
+      if(kata == "Depresi")
+          Navigator.push(context, MaterialPageRoute(builder: (context)=> DepresiPage()));
+      if(kata == "Stress")
+          Navigator.push(context, MaterialPageRoute(builder: (context)=> StressPage()));
+      if(kata == "Curhat")
+          Navigator.push(context, MaterialPageRoute(builder: (context)=> CurhatPage()));
+        },
+    child: Container(
+      //color: Colors.blue
+      decoration:
+          BoxDecoration(border: Border.all(color: colorTextBiru, width: 1,)),
+      height: SizeConfig.blockVertical * 22,
+      width: SizeConfig.blockHorizontal * 28,
+      child: Column(
+        children: [
+          SizedBox(height: 20),
+          Container(
+            height: SizeConfig.blockVertical * 10,
+            width: SizeConfig.blockHorizontal * 18,
+            decoration: BoxDecoration(color: colorTextAbu, borderRadius : BorderRadius.circular(5)),
+          ),
+          SizedBox(height: 20),
+          Text(
+            kata,
+            style: TextStyle(color: colorTextBiru),
+          ),
+        ],
+      ),
+    )
   );
   } 
 
@@ -68,10 +81,15 @@ class _HomePageState extends State<HomePage> {
                     color: Colors.grey, borderRadius: BorderRadius.circular(6)),
               ),
               SizedBox(width: 10),
-              Text(
-                judul,
-                style: TextStyle(color: colorTextBiru),
-              )
+              Container(
+                width: SizeConfig.blockHorizontal*55,
+                child: Text(
+                  judul,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(color: colorTextBiru),
+                ),
+              ),
             ],
           ),
         ),
@@ -137,12 +155,11 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             SizedBox(height: 10),
-            artikel("Judul Artikel 1"),
+            artikel("Mengenal Zoom Fatigue Syndrome, Kelelahan Akut Akibat Terlalu Sering Meeting di Zoom"),
             artikel("Judul Artikel 2"),
             artikel("Judul Artikel 3"),
             artikel("Judul Artikel 4"),
-            artikel("Judul Artikel 5"),
-            artikel("Judul Artikel 6"),
+
             
             ],
         ),
