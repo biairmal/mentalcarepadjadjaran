@@ -43,7 +43,7 @@ class _LoginPageState extends State<LoginPage> {
           decoration: InputDecoration(
             prefixIcon: Icon(Icons.person),
             border: InputBorder.none,
-            hintText: "Username",
+            hintText: "Email",
           ),
         ),
       ),
@@ -310,21 +310,21 @@ class _LoginPageState extends State<LoginPage> {
         formLogin = Column(
           key: ValueKey(2),
           children: [
-            Container(
-              margin: EdgeInsets.only(bottom: 20),
-              width: SizeConfig.screenWidth / 2,
-              height: SizeConfig.blockVertical * 6,
-              decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.all(Radius.circular(10))),
-              child: TextField(
-                decoration: InputDecoration(
-                  prefixIcon: Icon(Icons.person),
-                  border: InputBorder.none,
-                  hintText: "Username",
-                ),
-              ),
-            ),
+            // Container(
+            //   margin: EdgeInsets.only(bottom: 20),
+            //   width: SizeConfig.screenWidth / 2,
+            //   height: SizeConfig.blockVertical * 6,
+            //   decoration: BoxDecoration(
+            //       color: Colors.white,
+            //       borderRadius: BorderRadius.all(Radius.circular(10))),
+            //   child: TextField(
+            //     decoration: InputDecoration(
+            //       prefixIcon: Icon(Icons.person),
+            //       border: InputBorder.none,
+            //       hintText: "Username",
+            //     ),
+            //   ),
+            // ),
             Container(
               margin: EdgeInsets.only(bottom: 20),
               width: SizeConfig.screenWidth / 2,
@@ -337,7 +337,7 @@ class _LoginPageState extends State<LoginPage> {
                 decoration: InputDecoration(
                   prefixIcon: Icon(Icons.mail),
                   border: InputBorder.none,
-                  hintText: "E-mail",
+                  hintText: "Email",
                 ),
               ),
             ),
@@ -412,7 +412,7 @@ class _LoginPageState extends State<LoginPage> {
                 decoration: InputDecoration(
                   prefixIcon: Icon(Icons.person),
                   border: InputBorder.none,
-                  hintText: "Username",
+                  hintText: "Email",
                 ),
               ),
             ),
