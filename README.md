@@ -8,3 +8,16 @@ Mental Care Padjadjaran, an app that provides the users to release their stress 
 
 - Article about mental health
 
+## Features
+
+We consist of 5 guys named :
+
+- Bandana Irmal Abdillah
+
+- Daniel Rama Hiskia
+
+- M Fahrul Azimi
+
+- M Farid Ridho Rambe
+
+- Ahmad Egy Aranda
