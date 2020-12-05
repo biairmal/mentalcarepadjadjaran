@@ -8,7 +8,7 @@ Mental Care Padjadjaran, an app that provides the users to release their stress 
 
 - Article about mental health
 
-## Features
+## About Us
 
 We consist of 5 guys named :
 
