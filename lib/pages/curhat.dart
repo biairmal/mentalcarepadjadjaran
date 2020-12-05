@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:mcp/layout.dart';
-import 'package:mcp/navbar.dart';
+import 'package:mcp/helper/layout.dart';
+import 'package:mcp/widgets/navbar.dart';
 
 class CurhatPage extends StatelessWidget {
   //ignore: must_be_immutable

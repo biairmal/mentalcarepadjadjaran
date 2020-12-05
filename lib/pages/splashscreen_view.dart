@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mcp/pages/login_view.dart';
-import 'package:mcp/layout.dart';
+import 'package:mcp/helper/layout.dart';
 import 'dart:async';
 
 class SplashScreenPage extends StatefulWidget {

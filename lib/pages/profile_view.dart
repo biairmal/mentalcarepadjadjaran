@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mcp/layout.dart';
-import 'package:mcp/navbar.dart';
+import 'package:mcp/helper/layout.dart';
+import 'package:mcp/widgets/navbar.dart';
 
 class ProfilePage extends StatefulWidget {
   @override

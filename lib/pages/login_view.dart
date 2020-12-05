@@ -1,12 +1,10 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
-import 'package:mcp/layout.dart';
+import 'package:mcp/helper/layout.dart';
 import 'package:flutter/gestures.dart';
-import 'package:mcp/pages/auth_services.dart';
+import 'package:mcp/services/auth_services.dart';
+import 'package:mcp/services/database.dart';
 import 'package:mcp/pages/home_view.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
-
 
 class LoginPage extends StatefulWidget {
   @override
@@ -14,57 +12,188 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  TextEditingController emailController;
-  TextEditingController passwordController;
+  TextEditingController emailController = new TextEditingController();
+  TextEditingController passwordController = new TextEditingController();
+  TextEditingController usernameController = new TextEditingController();
 
-  @override
-  void initState() {
-    super.initState();
-    emailController = TextEditingController(text: "");
-    passwordController = TextEditingController(text: "");
-  }
+  AuthServices authService = new AuthServices();
+  DatabaseFunctions databaseFunctions = new DatabaseFunctions();
+
+  final _formKey = GlobalKey<FormState>();
+  bool isLoading = false;
+  bool isDaftar = false;
 
   int resizeBox = 0;
   String kata1 = 'Belum punya akun?   ';
   String kata2 = 'Daftar';
   String kata3 = 'Login';
 
-  Widget formLogin = Column(
-    key: ValueKey(1),
-    children: [
-      Container(
-        margin: EdgeInsets.only(bottom: 20),
-        width: SizeConfig.screenWidth / 2,
-        height: SizeConfig.blockVertical * 6,
-        decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.all(Radius.circular(10))),
-        child: TextField(
-          decoration: InputDecoration(
-            prefixIcon: Icon(Icons.person),
-            border: InputBorder.none,
-            hintText: "Email",
-          ),
-        ),
-      ),
-      Container(
-        margin: EdgeInsets.only(bottom: 20),
-        width: SizeConfig.screenWidth / 2,
-        height: SizeConfig.blockVertical * 6,
-        decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.all(Radius.circular(10))),
-        child: TextField(
-          obscureText: true,
-          decoration: InputDecoration(
-            prefixIcon: Icon(Icons.vpn_key),
-            border: InputBorder.none,
-            hintText: "Password",
-          ),
-        ),
-      ),
-    ],
-  );
+  signUpOrLogin() {
+    Map<String, String> userInfoMap = {
+      "username": usernameController.text,
+      "email": emailController.text,
+      "password": passwordController.text,
+      "nama": "",
+      "alamat": "",
+      "nohp": "",
+    };
+    if (isDaftar == true) {
+      if (_formKey.currentState.validate()) {
+        setState(() {
+          isLoading = true;
+        });
+        authService
+            .signUpWithmailAndPassword(
+                emailController.text, passwordController.text)
+            .then((val) {
+          print("$val");
+
+          databaseFunctions.uploadUserInfo(userInfoMap);
+          Navigator.pushReplacement(
+              context, MaterialPageRoute(builder: (context) => HomePage()));
+        });
+      }
+    } else {
+      if (_formKey.currentState.validate()) {
+        setState(() {
+          isLoading = true;
+        });
+        authService
+            .signInWithEmailAndPassword(
+                emailController.text, passwordController.text)
+            .then((val) {
+          print("$val");
+          Navigator.pushReplacement(
+              context, MaterialPageRoute(builder: (context) => HomePage()));
+        });
+      }
+    }
+  }
+
+  formLogin() {
+    if (isDaftar == true) {
+      return AnimatedContainer(
+          duration: Duration(seconds: 1),
+          padding: EdgeInsets.symmetric(horizontal: 70),
+          child: Form(
+              key: _formKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    color: Colors.white,
+                    child: TextFormField(
+                      validator: (val) {
+                        return RegExp(
+                                    r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                .hasMatch(val)
+                            ? null
+                            : "Please Enter Correct Email";
+                      },
+                      controller: emailController,
+                      decoration: InputDecoration(
+                        prefixIcon: Icon(Icons.email),
+                        border: InputBorder.none,
+                        hintText: "Email",
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  Container(
+                    color: Colors.white,
+                    child: TextFormField(
+                      controller: usernameController,
+                      validator: (val) {
+                        return val.length > 6
+                            ? null
+                            : "Enter Username 6+ characters";
+                      },
+                      decoration: InputDecoration(
+                        prefixIcon: Icon(Icons.person),
+                        border: InputBorder.none,
+                        hintText: "Username",
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  Container(
+                    color: Colors.white,
+                    child: TextFormField(
+                      controller: passwordController,
+                      obscureText: true,
+                      validator: (val) {
+                        return val.length > 6
+                            ? null
+                            : "Enter Password 6+ characters";
+                      },
+                      decoration: InputDecoration(
+                        prefixIcon: Icon(Icons.vpn_key),
+                        border: InputBorder.none,
+                        hintText: "Password",
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                ],
+              )));
+    } else {
+      return Container(
+          padding: EdgeInsets.symmetric(horizontal: 70),
+          //color: Colors.white,
+          child: Form(
+              key: _formKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    color: Colors.white,
+                    child: TextFormField(
+                      validator: (val) {
+                        return RegExp(
+                                    r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                .hasMatch(val)
+                            ? null
+                            : "Please Enter Correct Email";
+                      },
+                      controller: emailController,
+                      decoration: InputDecoration(
+                        prefixIcon: Icon(Icons.person),
+                        border: InputBorder.none,
+                        hintText: "Email",
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 15),
+                  Container(
+                    color: Colors.white,
+                    child: TextFormField(
+                      controller: passwordController,
+                      obscureText: true,
+                      validator: (val) {
+                        return val.length > 6
+                            ? null
+                            : "Enter Password 6+ characters";
+                      },
+                      decoration: InputDecoration(
+                        prefixIcon: Icon(Icons.vpn_key),
+                        border: InputBorder.none,
+                        hintText: "Password",
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 20)
+                ],
+              )));
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -134,307 +263,154 @@ class _LoginPageState extends State<LoginPage> {
     ];
 
     return Scaffold(
-      body: Stack(
-        children: <Widget>[
-          // Text Deskripsi Aplikasi
-          Align(
-              alignment: Alignment.topCenter,
-              child: Container(
-                  width: SizeConfig.screenWidth,
-                  height: SizeConfig.blockVertical * 47,
-                  child: Swiper(
-                    itemBuilder: (BuildContext context, int index) {
-                      return swiperlist[index];
-                    },
-                    itemCount: 2,
-                    pagination: new SwiperPagination(
-                        builder: const DotSwiperPaginationBuilder(
-                            size: 5.0,
-                            activeColor: Colors.blue,
-                            color: Colors.lightBlue,
-                            space: 5.0,
-                            activeSize: 7.0)),
-                    //control: new SwiperControl(),
-                  ))),
+      backgroundColor: Colors.white,
+      body: isLoading
+          ? Container(
+              child: Center(
+                child: CircularProgressIndicator(),
+              ),
+            )
+          : Stack(
+              children: <Widget>[
+                // Text Deskripsi Aplikasi
+                Align(
+                    alignment: Alignment.topCenter,
+                    child: Container(
+                        width: SizeConfig.screenWidth,
+                        height: SizeConfig.blockVertical * 47,
+                        child: Swiper(
+                          itemBuilder: (BuildContext context, int index) {
+                            return swiperlist[index];
+                          },
+                          itemCount: 2,
+                          pagination: new SwiperPagination(
+                              builder: const DotSwiperPaginationBuilder(
+                                  size: 5.0,
+                                  activeColor: Colors.blue,
+                                  color: Colors.lightBlue,
+                                  space: 5.0,
+                                  activeSize: 7.0)),
+                          //control: new SwiperControl(),
+                        ))),
 
-          // Container Login
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: AnimatedContainer(
-              duration: Duration(milliseconds: 200),
-              //color: Colors.grey,
-              width: SizeConfig.screenWidth,
-              height: SizeConfig.blockVertical * (53 + resizeBox),
-              child: Stack(
-                children: <Widget>[
-                  // Box Biru
-                  Align(
-                    alignment: Alignment.bottomCenter,
-                    child: AnimatedContainer(
-                      curve: Curves.easeInOut,
-                      duration: Duration(milliseconds: 200),
-                      height: (SizeConfig.blockVertical * (53 + resizeBox)) -
-                          (SizeConfig.blockVertical * 8),
-                      decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                              begin: Alignment.topCenter,
-                              end: Alignment.bottomCenter,
-                              colors: [Color(0xFF01B0BB), Color(0xFF3181E0)]),
-                          borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(50),
-                              topRight: Radius.circular(50))),
-                    ),
-                  ),
-                  // Logo MCP
-                  Align(
-                    alignment: Alignment(0, -1),
-                    child: AnimatedContainer(
-                      curve: Curves.easeInOut,
-                      //color: Colors.white,
-                      duration: Duration(milliseconds: 200),
-                      child: Image.asset(
-                        "assets/images/logo_putih.png",
-                        width: SizeConfig.blockHorizontal * 25,
-                      ),
-                    ),
-                  ),
-                  // Klik daftar
-
-                  Align(
-                    alignment: Alignment.center,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
+                // Container Login
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: AnimatedContainer(
+                    duration: Duration(milliseconds: 200),
+                    //color: Colors.grey,
+                    width: SizeConfig.screenWidth,
+                    height: SizeConfig.blockVertical * (53 + resizeBox),
+                    child: Stack(
+                      children: <Widget>[
+                        // Box Biru
                         Align(
-                            child: AnimatedSwitcher(
-                          duration: Duration(milliseconds: 200),
-                          child: formLogin,
-                        )),
-                        Container(
-                          margin: EdgeInsets.only(bottom: 10),
-                          child: SizedBox(
-                              width: SizeConfig.screenWidth / 2,
-                              child: RaisedButton(
-                                  child: Text(kata3),
-                                  onPressed: () async {
-                                    if (resizeBox == 0) {
-                                      if (emailController.text.isEmpty ||
-                                          passwordController.text.isEmpty) {
-                                        print(
-                                            "Email and password cannot be empty");
-                                      }
-                                      try {
-                                        final user =
-                                            await AuthServices.signInWithEmail(
-                                                email: emailController.text,
-                                                password:
-                                                    passwordController.text);
-                                        if (user != null) {
-                                          print("Login Successful");
-                                          Navigator.pushReplacement(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      HomePage()));
-                                        }
-                                      } catch (e) {
-                                        print(e);
-                                      }
-                                    }
-                                    else {
-                                      if (emailController.text.isEmpty ||
-                                        passwordController.text.isEmpty) {
-                                      print(
-                                          "Email and password cannot be empty");
-                                    }
-                                    try {
-                                      final user =
-                                          await AuthServices.createUser(
-                                              email: emailController.text,
-                                              password:
-                                                  passwordController.text);
-                                      if (user != null) {
-                                        Navigator.pushReplacement(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    LoginPage()));
-                                      }
-                                    } catch (e) {
-                                      print(e);
-                                    }
-                                    }
-                                    }
-                                    )),
+                          alignment: Alignment.bottomCenter,
+                          child: AnimatedContainer(
+                            curve: Curves.easeInOut,
+                            duration: Duration(milliseconds: 200),
+                            height:
+                                (SizeConfig.blockVertical * (53 + resizeBox)) -
+                                    (SizeConfig.blockVertical * 8),
+                            decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                    begin: Alignment.topCenter,
+                                    end: Alignment.bottomCenter,
+                                    colors: [
+                                      Color(0xFF01B0BB),
+                                      Color(0xFF3181E0)
+                                    ]),
+                                borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(50),
+                                    topRight: Radius.circular(50))),
+                          ),
                         ),
-                        Container(
-                          margin: EdgeInsets.only(bottom: 20),
-                          child: RichText(
-                            text: TextSpan(children: <TextSpan>[
-                              TextSpan(
-                                text: kata1,
-                                style: TextStyle(color: Colors.amber),
+                        // Logo MCP
+                        Align(
+                          alignment: Alignment(0, -1),
+                          child: AnimatedContainer(
+                            curve: Curves.easeInOut,
+                            //color: Colors.white,
+                            duration: Duration(milliseconds: 200),
+                            child: Image.asset(
+                              "assets/images/logo_putih.png",
+                              width: SizeConfig.blockHorizontal * 25,
+                            ),
+                          ),
+                        ),
+                        // Klik daftar
+
+                        Align(
+                          alignment: Alignment.center,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Align(
+                                  child: AnimatedSwitcher(
+                                duration: Duration(milliseconds: 200),
+                                child: formLogin(),
+                              )),
+                              Container(
+                                margin: EdgeInsets.only(bottom: 10),
+                                child: SizedBox(
+                                    width: SizeConfig.screenWidth / 2,
+                                    child: RaisedButton(
+                                        child: Text(kata3),
+                                        onPressed: () {
+                                          signUpOrLogin();
+                                        })),
                               ),
-                              TextSpan(
-                                  text: kata2,
-                                  style: TextStyle(
-                                      color: Colors.amber,
-                                      decoration: TextDecoration.underline),
-                                  recognizer: TapGestureRecognizer()
-                                    ..onTap = () {
-                                      _clickDaftar();
-                                    }),
-                            ]),
+                              Container(
+                                margin: EdgeInsets.only(bottom: 20),
+                                child: RichText(
+                                  text: TextSpan(children: <TextSpan>[
+                                    TextSpan(
+                                      text: kata1,
+                                      style: TextStyle(color: Colors.amber),
+                                    ),
+                                    TextSpan(
+                                        text: kata2,
+                                        style: TextStyle(
+                                            color: Colors.amber,
+                                            decoration:
+                                                TextDecoration.underline),
+                                        recognizer: TapGestureRecognizer()
+                                          ..onTap = () {
+                                            _clickDaftar();
+                                          }),
+                                  ]),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ],
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-          ),
-        ],
-      ),
     );
   }
 
   void _clickDaftar() {
     setState(() {
-      if (resizeBox == 0) {
+      if (isDaftar == false) {
         resizeBox += 7;
         kata1 = 'Sudah punya akun?   ';
         kata2 = 'Login';
         kata3 = 'Daftar';
-
-        formLogin = Column(
-          key: ValueKey(2),
-          children: [
-            // Container(
-            //   margin: EdgeInsets.only(bottom: 20),
-            //   width: SizeConfig.screenWidth / 2,
-            //   height: SizeConfig.blockVertical * 6,
-            //   decoration: BoxDecoration(
-            //       color: Colors.white,
-            //       borderRadius: BorderRadius.all(Radius.circular(10))),
-            //   child: TextField(
-            //     decoration: InputDecoration(
-            //       prefixIcon: Icon(Icons.person),
-            //       border: InputBorder.none,
-            //       hintText: "Username",
-            //     ),
-            //   ),
-            // ),
-            Container(
-              margin: EdgeInsets.only(bottom: 20),
-              width: SizeConfig.screenWidth / 2,
-              height: SizeConfig.blockVertical * 6,
-              decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.all(Radius.circular(10))),
-              child: TextField(
-                controller: emailController,
-                decoration: InputDecoration(
-                  prefixIcon: Icon(Icons.mail),
-                  border: InputBorder.none,
-                  hintText: "Email",
-                ),
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.only(bottom: 20),
-              width: SizeConfig.screenWidth / 2,
-              height: SizeConfig.blockVertical * 6,
-              decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.all(Radius.circular(10))),
-              child: TextField(
-                controller: passwordController,
-                obscureText: true,
-                decoration: InputDecoration(
-                  prefixIcon: Icon(Icons.vpn_key),
-                  border: InputBorder.none,
-                  hintText: "Password",
-                ),
-              ),
-            ),
-            // Container(
-            //   margin: EdgeInsets.only(bottom: 10),
-            //   child: SizedBox(
-            //   width: SizeConfig.screenWidth / 2,
-            //                   child: RaisedButton(
-            //                       onPressed: () async {
-            //                         if (emailController.text.isEmpty ||
-            //                             passwordController.text.isEmpty) {
-            //                           print(
-            //                               "Email and password cannot be empty");
-            //                         }
-            //                         try {
-            //                           final user =
-            //                               await AuthServices.createUser(
-            //                                   email: emailController.text,
-            //                                   password:
-            //                                       passwordController.text);
-            //                           if (user != null) {
-            //                             print("Login Successful");
-            //                             Navigator.pushReplacement(
-            //                                 context,
-            //                                 MaterialPageRoute(
-            //                                     builder: (context) =>
-            //                                         LoginPage()));
-            //                           }
-            //                         } catch (e) {
-            //                           print(e);
-            //                         }
-            //                       }
-            //             )))
-          ],
-        );
-        
+        isDaftar = true;
+        emailController = TextEditingController(text: "");
+        passwordController = TextEditingController(text: "");
       } else {
         resizeBox = 0;
         kata1 = 'Belum punya akun?   ';
         kata2 = 'Daftar';
         kata3 = 'Login';
-
-        formLogin = Column(
-          key: ValueKey(1),
-          children: [
-            Container(
-              margin: EdgeInsets.only(bottom: 20),
-              width: SizeConfig.screenWidth / 2,
-              height: SizeConfig.blockVertical * 6,
-              decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.all(Radius.circular(10))),
-              child: TextField(
-                controller: emailController,
-                decoration: InputDecoration(
-                  prefixIcon: Icon(Icons.person),
-                  border: InputBorder.none,
-                  hintText: "Email",
-                ),
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.only(bottom: 20),
-              width: SizeConfig.screenWidth / 2,
-              height: SizeConfig.blockVertical * 6,
-              decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.all(Radius.circular(10))),
-              child: TextField(
-                controller: passwordController,
-                obscureText: true,
-                decoration: InputDecoration(
-                  prefixIcon: Icon(Icons.vpn_key),
-                  border: InputBorder.none,
-                  hintText: "Password",
-                ),
-              ),
-            ),
-          ],
-        );
+        isDaftar = false;
+        emailController = TextEditingController(text: "");
+        passwordController = TextEditingController(text: "");
       }
     });
   }

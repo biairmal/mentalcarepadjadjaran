@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mcp/layout.dart';
-import 'package:mcp/navbar.dart';
+import 'package:mcp/helper/layout.dart';
+import 'package:mcp/widgets/navbar.dart';
 import 'package:mcp/pages/artikel.dart';
 import 'package:mcp/pages/curhat.dart';
 import 'package:mcp/pages/depressi.dart';
