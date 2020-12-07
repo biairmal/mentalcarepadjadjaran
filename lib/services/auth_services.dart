@@ -7,6 +7,7 @@ class AuthServices {
   UserClass _userFromFirebaseUser(User user){
     return user != null? UserClass(userId : user.uid): null;
   }
+  
   Future signInWithEmailAndPassword(String email, String password) async{
     try{
       UserCredential result = await _auth.signInWithEmailAndPassword(email: email, password: password);
@@ -14,6 +15,7 @@ class AuthServices {
       return _userFromFirebaseUser(firebaseUser);
     }catch(e){
       print(e.toString());
+      return null;
     }
   }
 
@@ -24,6 +26,7 @@ class AuthServices {
       return _userFromFirebaseUser(firebaseUser);
     }catch(e){
       print(e.toString());
+      return null;
     }
   }
 
@@ -32,6 +35,7 @@ class AuthServices {
       return await _auth.sendPasswordResetEmail(email: email);
     }catch(e){
       print(e.toString());
+      return null;
     }
 
   }
@@ -41,6 +45,7 @@ class AuthServices {
       return await _auth.signOut();
     }catch(e){
       print(e.toString());
+      return null;
     }
   }
 }

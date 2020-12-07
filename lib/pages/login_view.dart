@@ -1,4 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:mcp/helper/helperfunctions.dart';
 import 'package:mcp/helper/layout.dart';
 import 'package:flutter/gestures.dart';
 import 'package:mcp/services/auth_services.dart';
@@ -28,7 +30,7 @@ class _LoginPageState extends State<LoginPage> {
   String kata2 = 'Daftar';
   String kata3 = 'Login';
 
-  signUpOrLogin() {
+  signUpOrLogin() async {
     Map<String, String> userInfoMap = {
       "username": usernameController.text,
       "email": emailController.text,
@@ -37,20 +39,27 @@ class _LoginPageState extends State<LoginPage> {
       "alamat": "",
       "nohp": "",
     };
+
     if (isDaftar == true) {
       if (_formKey.currentState.validate()) {
         setState(() {
           isLoading = true;
         });
-        authService
+        await authService
             .signUpWithmailAndPassword(
                 emailController.text, passwordController.text)
-            .then((val) {
-          print("$val");
+            .then((val) async {
+          if (val != null) {
+            print("$val");
 
-          databaseFunctions.uploadUserInfo(userInfoMap);
-          Navigator.pushReplacement(
-              context, MaterialPageRoute(builder: (context) => HomePage()));
+            databaseFunctions.uploadUserInfo(userInfoMap);
+            HelperFunctions.saveUserLoggedInSharedPreference(true);
+            HelperFunctions.saveUserNameSharedPreference(
+                usernameController.text);
+            HelperFunctions.saveUserEmailSharedPreference(emailController.text);
+            Navigator.pushReplacement(
+                context, MaterialPageRoute(builder: (context) => HomePage()));
+          }
         });
       }
     } else {
@@ -58,16 +67,28 @@ class _LoginPageState extends State<LoginPage> {
         setState(() {
           isLoading = true;
         });
-        authService
+        await authService
             .signInWithEmailAndPassword(
                 emailController.text, passwordController.text)
-            .then((val) {
+            .then((val) async {
           print("$val");
-          Navigator.pushReplacement(
-              context, MaterialPageRoute(builder: (context) => HomePage()));
+          if (val != null) {
+            QuerySnapshot userInfoSnapshot =
+                await DatabaseFunctions().getUserInfo(emailController.text);
+
+            HelperFunctions.saveUserLoggedInSharedPreference(true);
+            HelperFunctions.saveUserNameSharedPreference(
+                userInfoSnapshot.docs[0].data()["username"]);
+            HelperFunctions.saveUserEmailSharedPreference(
+                userInfoSnapshot.docs[0].data()["email"]);
+
+            Navigator.pushReplacement(
+                context, MaterialPageRoute(builder: (context) => HomePage()));
+          }
         });
       }
     }
+    HelperFunctions.saveUserLoggedInSharedPreference(true);
   }
 
   formLogin() {
