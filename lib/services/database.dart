@@ -7,6 +7,12 @@ class DatabaseFunctions {
     });
   }
 
+  Future<void> updateUserInfo(userMap, docId) async {
+    FirebaseFirestore.instance.collection("users").doc(docId).update(userMap).catchError((e) {
+      print(e.toString());
+    });
+  }
+
   getUserInfo(String email) async {
     return FirebaseFirestore.instance
         .collection('users')

@@ -179,66 +179,6 @@ class _ChatListPageState extends State<ChatListPage> {
     );
   }
 
-  chatList() {
-    return GestureDetector(
-        onTap: () {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => ChatWindowPage()));
-        },
-        child: Container(
-          width: SizeConfig.screenWidth,
-          height: SizeConfig.blockVertical * 11,
-          decoration: BoxDecoration(
-              border: Border(
-            bottom: BorderSide(width: 0.5, color: Colors.black),
-          )),
-          child: Stack(
-            children: <Widget>[
-              // Foto Profil
-              Align(
-                alignment: Alignment(-0.9, 0),
-                child: Container(
-                  height: 50.0,
-                  width: 50.0,
-                  decoration: BoxDecoration(
-                    color: Colors.amber,
-                    shape: BoxShape.circle,
-                  ),
-                ),
-              ),
-              // Text chatlist
-              Align(
-                alignment: Alignment(1, -0.4),
-                child: Container(
-                  width: SizeConfig.blockHorizontal * 80,
-                  //color : Colors.blue,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: <Widget>[
-                      SizedBox(
-                        height: SizeConfig.blockVertical,
-                      ),
-                      Text(
-                        "Bandana Abdillah",
-                        style: TextStyle(fontSize: 12),
-                      ),
-                      Text(
-                        "You have a message",
-                        style: TextStyle(fontSize: 12),
-                      ),
-                      SizedBox(
-                        height: SizeConfig.blockVertical,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ));
-  }
-
   Widget userList() {
     return haveUserSearched && searchController.text != Constants.myName
         ? ListView.builder(

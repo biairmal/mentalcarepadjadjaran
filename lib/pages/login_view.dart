@@ -103,7 +103,10 @@ class _LoginPageState extends State<LoginPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Container(
-                    color: Colors.white,
+                    decoration: BoxDecoration(
+                      color : Colors.white,
+                      borderRadius: BorderRadius.all(Radius.circular(20))
+                    ),
                     child: TextFormField(
                       validator: (val) {
                         return RegExp(
@@ -124,7 +127,10 @@ class _LoginPageState extends State<LoginPage> {
                     height: 15,
                   ),
                   Container(
-                    color: Colors.white,
+                    decoration: BoxDecoration(
+                      color : Colors.white,
+                      borderRadius: BorderRadius.all(Radius.circular(20))
+                    ),
                     child: TextFormField(
                       controller: usernameController,
                       validator: (val) {
@@ -143,7 +149,10 @@ class _LoginPageState extends State<LoginPage> {
                     height: 15,
                   ),
                   Container(
-                    color: Colors.white,
+                    decoration: BoxDecoration(
+                      color : Colors.white,
+                      borderRadius: BorderRadius.all(Radius.circular(20))
+                    ),
                     child: TextFormField(
                       controller: passwordController,
                       obscureText: true,
@@ -175,7 +184,10 @@ class _LoginPageState extends State<LoginPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Container(
-                    color: Colors.white,
+                    decoration: BoxDecoration(
+                      color : Colors.white,
+                      borderRadius: BorderRadius.all(Radius.circular(20))
+                    ),
                     child: TextFormField(
                       validator: (val) {
                         return RegExp(
@@ -194,7 +206,10 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   SizedBox(height: 15),
                   Container(
-                    color: Colors.white,
+                    decoration: BoxDecoration(
+                      color : Colors.white,
+                      borderRadius: BorderRadius.all(Radius.circular(20))
+                    ),
                     child: TextFormField(
                       controller: passwordController,
                       obscureText: true,

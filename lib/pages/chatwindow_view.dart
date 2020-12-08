@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:mcp/helper/layout.dart';
 import 'package:mcp/helper/constants.dart';
-import "package:mcp/helper/helperfunctions.dart";
 import 'package:mcp/services/database.dart';
 
 class ChatWindowPage extends StatefulWidget {
@@ -67,9 +66,6 @@ class _ChatWindowPageState extends State<ChatWindowPage> {
     super.initState();
   }
 
-  getUserInfo() async {
-    Constants.myName = await HelperFunctions.getUserNameSharedPreference();
-  }
 
   @override
   Widget build(BuildContext context) {
